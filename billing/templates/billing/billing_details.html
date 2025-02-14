@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Billing Details</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Enter Payment Details </p>
+                </div>
+            </div>
+        </header>
+        <br/>
+        <div class="container">
+            <div class="'row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="card">
+                            <div class="card-header">
+                              Order Summary
+                            </div>
+                            <div class="card-body">
+
+                                {% for product in cart_products %}
+                                <strong>{{product.name }} : </strong> 
+                                
+                                ${{ product.price }}
+
+                                <br/>
+
+                                <small>Quantity: 
+                                {% for key, value in quantities.items %}
+                                    {% if key == product.id|slugify %}
+                                        {{ value }}
+                                    {% endif %}
+                                {% endfor %}</small>
+
+
+
+                                {% endfor %}
+                                <br/><br/><br/>
+                                <strong >Total: ${{ totals }} </strong>
+
+                                <br/><br/>
+                                <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Back to Basket</a>
+
+                            
+                
+                            </div>
+                          </div>
+
+
+
+                    </div>
+            </div>
+        </div>
+        
+
+    
+ <br/><br/><br/>    
+ <div class="card">
+    <div class="card-header">
+      Shipping Details
+    </div>
+    <div class="card-body">
+        
+            {{ shipping_details.bill_full_name }} <br/>
+            {{ shipping_details.bill_address1}}<br/>
+            {{ shipping_details.bill_address2}}<br/>
+            {{ shipping_details.bill_postcode}}<br/>
+            {{ shipping_details.bill_country}}<br/> <br/>
+
+            <a href="{% url 'checkout' %}" class="btn btn-outline-secondary"> Update Details</a>
+
+            
+
+    
+    </div>
+  </div> 
+  
+  <br/><br/>
+
+
+
+  <div class="card">
+    <div class="card-header">
+      Billing Details
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{% url 'process_order' %}">
+            {% csrf_token %}
+        
+           {{ billing_form.as_p }}
+            
+
+    
+    </div>
+  </div> 
+  
+  <br/>
+
+
+
+  <button type="submit" href="#" class="btn btn-secondary">PAY</button>
+</form>
+
+
+  <br/><br/>
+
+
+{% endblock %}
