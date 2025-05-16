@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-c%bh+rv0c=12d9_#u)4qb5k(h!_das)ecj$n!(-%lg68zo&o)y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['aromatica-kkpf.onrender.com']
 
 
 # Application definition
