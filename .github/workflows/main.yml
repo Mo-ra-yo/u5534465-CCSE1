@@ -31,7 +31,7 @@ jobs:
           curl -X POST ${{secrets.RENDER_DEPLOY_HOOK_URL }}
 
       - name: Wait for Render to deploy
-        run: sleep 120
+        run: sleep 60
 
       - name: See if site is reachable
         run: |
@@ -44,3 +44,4 @@ jobs:
           target: 'https://aromatica-kkpf.onrender.com'
           cmd_options: '-a'
           fail_action: false
+          docker_name: 'ghcr.io/zaproxy/zap-full-scan'
