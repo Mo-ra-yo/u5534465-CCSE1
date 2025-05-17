@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -13,5 +13,6 @@ urlpatterns = [
     path('product/<int:pk>', views.product, name='product'),
     path('category/<str:cat>', views.category, name='category'),
     path('category_summary/', views.category_summary, name='category_summary'),
+    path('cart/', include('cart.urls'))
 
 ]
