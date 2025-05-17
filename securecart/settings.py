@@ -19,7 +19,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret')
 DEBUG = True
 #True
 
-ALLOWED_HOSTS = ['aromatica-kkpf.onrender.com']
+ALLOWED_HOSTS = ['aromatica-kkpf.onrender.com', 'localhost', '127.0.0.1']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
