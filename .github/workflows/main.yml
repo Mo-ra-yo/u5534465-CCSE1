@@ -37,5 +37,5 @@ jobs:
         uses: zaproxy/action-full-scan@v0.4.0
         with:
           target: 'https//aromatica-kkpf.onrender.com'
-          cmd-options: '-a'
-          fail-on-warn: false
+          cmd_options: '-a'
+          fail_action: false
