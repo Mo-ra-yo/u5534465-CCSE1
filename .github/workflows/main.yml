@@ -3,47 +3,39 @@ name: Django CI/CD Pipeline for Aromatica
 on:
   push:
     branches:
-    - main
-  pull_request:
-    branches: 
-    - main
-
+      - main
 jobs:
-  build-test-deploy:
+  build-deploy-test:
     runs-on: ubuntu-latest
 
-    env:
-      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-      RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Run Django tests
-      run: |
-        python manage.py migrate --noinput
-        python manage.py test
+      - name: Run Django tests
+        run: |
+          python manage.py test
 
-    - name: RUN OWASP ZAP Baseline Scan
-      uses: zaproxy/action-baseline@v0.7.0
-      with:
-        target: 'https://your-render-app-url.onrender.com'
-        cmd_options: '-r zap_report.html'
+      - name: Deploy to Render
+        run: |
+          curl -X POST ${{secrets.RENDER_DEPLOY_HOOK_URL }}
 
-    - name: Deploy to Render
-      run: |
-        curl -X POST "https://api.render.com/deploy/srv-${{ env.RENDER_SERVICE_ID }}" \
-        -H "Authorization: Bearer ${{ env.RENDER_API_KEY }}" \
-        -H "Accept: application/json" \
-        -d '{}'
+      - name: Wait for Render to deploy
+        run: sleep 60
+
+      - name: Run OWASP ZAP DAST Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          target: 'https//aromatica-kkpf.onrender.com'
+          cmd-options: '-a'
+          fail-on-warn: false
