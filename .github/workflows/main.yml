@@ -43,4 +43,4 @@ jobs:
         with:
           target: 'https://aromatica-kkpf.onrender.com'
           fail_action: false
-          cmd_options: '-config api.disablekey=true'
+          cmd_options: '--config api.disablekey=true -J report_json.json -w report_md.md -r report_html.html'
