@@ -38,9 +38,9 @@ jobs:
           echo "checking if site is reachable"
           curl -I https://aromatica-kkpf.onrender.com
 
-      - name: Run OWASP ZAP Full Scan
-        uses: zaproxy/action-full-scan@v0.11.0
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-full-scan@v0.6.0
         with:
           target: 'https://aromatica-kkpf.onrender.com'
           fail_action: false
-          allow_issue_writing: false
+          rules_file_name: ''
